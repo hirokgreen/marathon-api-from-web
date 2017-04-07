@@ -27,11 +27,18 @@
 						</div>
 						<nav>
 							<ul>
-						
-								<li><a href="#">Create</a></li>
-								<li><a href="#">Distroy</a></li>
+
+                                               <div id="resultDivContainer"></div>
+						<li><button type="button" id="print" onClick="testJS()"> create</button></li>
+                                                <li><button type="button" id="print" onClick="testJS()"> destroy</button></li>
+
 								
 							</ul>
+</nav>
+
+
+<!-- The result of the search will be rendered inside this div -->
+<div id="result"></div>
 						</nav>
 					</header>
 
@@ -59,6 +66,40 @@
 			<script src="assets/js/skel.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+<script type="text/javascript">
 
+testJS = function() {
+
+    var resultDiv = $("#resultDivContainer");
+
+    $.ajax({
+        url: "test.html",
+        type: "POST",
+        data: {
+  "id": "api-test",
+  "cmd": "python -m SimpleHTTPServer  $PORT",
+  "cpus": 0.1,
+  "mem": 128,
+  "disk": 128,
+  "instances": 1
+},
+        dataType: "json",
+        success: function (result) {
+            switch (result) {
+                case true:
+                    processResponse(result);
+                    break;
+                default:
+                    resultDiv.html(result);
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        alert(thrownError);
+        }
+    });
+};
+
+</script>
 	</body>
 </html>
